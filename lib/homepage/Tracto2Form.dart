@@ -1,18 +1,20 @@
-import 'package:control_unidades/components/LabeledCheckbox.dart';
 import 'package:control_unidades/components/LabeledCheckbox2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'consulta/consulta.dart';
 
 class Tracto2Form extends StatelessWidget {
   final String unidad;
-  final String fecha;
+  final int index;
+  final List<String> datos;
+  final List<String> llantas;
   const Tracto2Form({
     Key key,
     this.unidad,
-    this.fecha,
+    this.index,
+    this.datos,
+    this.llantas,
   }) : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class Tracto2Form extends StatelessWidget {
                       (Route<dynamic> route) => false);
                 },
                 child: Icon(
-                  Icons.save,
+                  Icons.check,
                   size: 30.0,
                 ),
               )),
@@ -50,18 +52,20 @@ class Tracto2Form extends StatelessWidget {
           Column(
             children: <Widget>[
               Text(
-                "\nTracto\n",
-                style: TextStyle(fontSize: 20),
+                "Historico de la unidad $unidad ",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
             ],
           ),
           Container(
-            height: size.height * 1.75,
+            height: size.height * 1.85,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
                 Container(
-                  width: size.width * .49,
+                  width: size.width * .51,
                   color: Colors.white,
                   child: Column(
                     children: <Widget>[
@@ -72,16 +76,56 @@ class Tracto2Form extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         ancho: size.height * .28,
                       ),
-                      MyStateful2Widget(),
+                      MyStateful2Widget(
+                        data: [
+                          datos[1],
+                          datos[2],
+                          datos[3],
+                          datos[4],
+                          datos[5],
+                          datos[6],
+                          datos[7],
+                          datos[8],
+                          datos[9],
+                          datos[10],
+                        ],
+                        llantas: [
+                          llantas[0],
+                          llantas[2],
+                          llantas[4],
+                          llantas[6],
+                          llantas[8],
+                        ],
+                      ),
                     ],
                   ),
                 ),
                 Container(
-                  width: size.width * .49,
+                  width: size.width * .51,
                   color: Colors.white,
                   child: Column(
                     children: <Widget>[
-                      MyStatefulWidget(),
+                      MyStatefulWidget(
+                        llantas: [
+                          llantas[0],
+                          llantas[3],
+                          llantas[5],
+                          llantas[7],
+                          llantas[9],
+                        ],
+                        datos: [
+                          datos[0],
+                          datos[9],
+                          datos[10],
+                          datos[11],
+                          datos[12],
+                          datos[13],
+                          datos[14],
+                          datos[15],
+                          datos[16],
+                          datos[17],
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -96,7 +140,13 @@ class Tracto2Form extends StatelessWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({key}) : super(key: key);
+  final List<String> llantas;
+  final List<String> datos;
+  const MyStatefulWidget({
+    key,
+    this.llantas,
+    this.datos,
+  }) : super(key: key);
 
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
@@ -104,253 +154,168 @@ class MyStatefulWidget extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  bool _isSelected = false;
-  bool _isSelected2 = false;
-  bool _isSelected3 = false;
-  bool _isSelected4 = false;
-  bool _isSelected5 = false;
-  bool _isSelected6 = false;
-  bool _isSelected7 = false;
-  bool _isSelected8 = false;
-  bool _isSelected9 = false;
-  bool _isSelected10 = false;
-  bool _isSelected11 = false;
-  bool _isSelected12 = false;
-  bool _isSelected13 = false;
-  bool _isSelected14 = false;
-  bool _isSelected15 = false;
-  TextEditingController controller;
+  String llanta2s;
+  String llanta4s;
+  String llanta6s;
+  String llanta8s;
+  String llanta10s;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(
       children: <Widget>[
-        LabeledCheckbox(
-          controller: controller,
-          onChanged2: _doSomething,
+        LabeledCheckbox2(
           label: "Motivo de  ingreso: ",
-          descripcion: "Motivo del daño",
+          descripcion: "Observación",
+          values: widget.datos[0],
+          value: true,
+          active: false,
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          ancho: size.width * .23,
+        ),
+        LabeledCheckbox2(
+          label: "Defensa delantera:  ",
+          descripcion: "Observación",
+          values: widget.datos[1],
+          value: true,
+          active: false,
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          ancho: size.width * .23,
+        ),
+        LabeledCheckbox2(
+          label: "Motor:  ",
+          descripcion: "Observación",
+          values: widget.datos[2],
           value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Defensa delantera:",
-          descripcion: "Motivo del daño",
-          value: _isSelected,
+        LabeledCheckbox2(
+          label: "Piso de cabiba :  ",
+          descripcion: "Observación",
+          values: widget.datos[3],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Motor:",
-          descripcion: "Motivo del daño",
-          value: _isSelected2,
+        LabeledCheckbox2(
+          label: "Tanque de Diesel:  ",
+          descripcion: "Observación",
+          values: widget.datos[4],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected2 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llantas:",
-          descripcion: "Motivo del daño",
-          value: _isSelected3,
+        LabeledCheckbox2(
+          label: "CM T. Der.:  ",
+          descripcion: "Observación",
+          values: widget.datos[5],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected3 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Piso de cabiba :",
-          descripcion: "Motivo del daño",
-          value: _isSelected4,
+        LabeledCheckbox2(
+          label: "Cap. Tanque LT. Der.:  ",
+          descripcion: "Observación",
+          values: widget.datos[6],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected4 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Tanque de Diesel:",
-          descripcion: "Motivo del daño",
-          value: _isSelected5,
+        LabeledCheckbox2(
+          label: "Trampa Der.:  ",
+          descripcion: "Observación",
+          values: widget.datos[7],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected5 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "CM T. Der.:",
-          descripcion: "Motivo del daño",
-          value: _isSelected6,
+        LabeledCheckbox2(
+          label: "Aluminio:  ",
+          descripcion: "Observación",
+          values: widget.datos[8],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected6 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Cap. Tanque LT. Der.:",
-          descripcion: "Motivo del daño",
-          value: _isSelected7,
+        LabeledCheckbox2(
+          label: "Tapon de Diesel Der.:  ",
+          descripcion: "Observación",
+          values: widget.datos[9],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected7 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Trampa Der.:",
-          descripcion: "Motivo del daño",
-          value: _isSelected8,
+        SizedBox(
+          height: 50,
+        ),
+        LabeledCheckbox2(
+          label: "2-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[0],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected8 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Aluminio:",
-          descripcion: "Motivo del daño",
-          value: _isSelected9,
+        LabeledCheckbox2(
+          label: "4-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[1],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected9 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Tapon de Diesel Der.:",
-          descripcion: "Motivo del daño",
-          value: _isSelected10,
+        LabeledCheckbox2(
+          label: "6-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[2],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected10 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llanta 2:",
-          descripcion: "Motivo del daño",
-          value: _isSelected11,
+        LabeledCheckbox2(
+          label: "8-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[3],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected11 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llanta 4:",
-          descripcion: "Motivo del daño",
-          value: _isSelected12,
+        LabeledCheckbox2(
+          label: "10-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[4],
+          value: true,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected12 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llanta 6:",
-          descripcion: "Motivo del daño",
-          value: _isSelected13,
-          active: true,
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected13 = values;
-            });
-          },
-        ),
-        LabeledCheckbox(
-          label: "Llanta 8:",
-          descripcion: "Motivo del daño",
-          value: _isSelected14,
-          active: true,
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected14 = values;
-            });
-          },
-        ),
-        LabeledCheckbox(
-          label: "Llanta 10:",
-          descripcion: "Motivo del daño",
-          value: _isSelected15,
-          active: true,
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected15 = values;
-            });
-          },
-        ),
-        Text("\n"),
       ],
     );
-  }
-
-  Future<void> _doSomething(String text) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      prefs.setString("valor", text);
-    });
   }
 }
 
 class MyStateful2Widget extends StatefulWidget {
-  const MyStateful2Widget({key}) : super(key: key);
+  final List<String> llantas;
+  final List<String> data;
+  const MyStateful2Widget({
+    key,
+    this.llantas,
+    this.data,
+  }) : super(key: key);
 
   @override
   _MyStateful2WidgetState createState() => _MyStateful2WidgetState();
@@ -358,222 +323,131 @@ class MyStateful2Widget extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStateful2WidgetState extends State<MyStateful2Widget> {
-  bool _isSelected = false;
-  bool _isSelected2 = false;
-  bool _isSelected3 = false;
-  bool _isSelected4 = false;
-  bool _isSelected5 = false;
-  bool _isSelected6 = false;
-  bool _isSelected7 = false;
-  bool _isSelected8 = false;
-  bool _isSelected9 = false;
-  bool _isSelected10 = false;
-  bool _isSelected11 = false;
-  bool _isSelected12 = false;
-  bool _isSelected13 = false;
-  bool _isSelected14 = false;
-  bool _isSelected15 = false;
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Column(
       children: <Widget>[
-        LabeledCheckbox(
-          label: "Cabina:",
-          descripcion: "Motivo del daño",
-          value: _isSelected,
-          active: true,
+        LabeledCheckbox2(
+          label: "Cabina:  ",
+          descripcion: "Observación",
+          values: widget.data[0],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Tanque de Aire:",
-          descripcion: "Motivo del daño",
-          value: _isSelected2,
-          active: true,
+        LabeledCheckbox2(
+          label: "Tanque de Aire:  ",
+          descripcion: "Observación",
+          values: widget.data[1],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected2 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Eje impulsor:",
-          descripcion: "Motivo del daño",
-          value: _isSelected3,
-          active: true,
+        LabeledCheckbox2(
+          label: "Eje impulsor:  ",
+          descripcion: "Observación",
+          values: widget.data[2],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected3 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Quinta rueda :",
-          descripcion: "Motivo del daño",
-          value: _isSelected4,
-          active: true,
+        LabeledCheckbox2(
+          label: "Quinta rueda :  ",
+          descripcion: "Observación",
+          values: widget.data[3],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected4 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Escape :",
-          descripcion: "Motivo del daño",
-          value: _isSelected5,
-          active: true,
+        LabeledCheckbox2(
+          label: "Escape :  ",
+          descripcion: "Observación",
+          values: widget.data[4],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected5 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "CM T. Der.:",
-          descripcion: "Motivo del daño",
-          value: _isSelected6,
-          active: true,
+        LabeledCheckbox2(
+          label: "CM T. Izq.:  ",
+          descripcion: "Observación",
+          values: widget.data[5],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected6 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Cap. Tanque LT. Izq.:",
-          descripcion: "Motivo del daño",
-          value: _isSelected7,
-          active: true,
+        LabeledCheckbox2(
+          label: "Cap. Tanque LT. Izq.:  ",
+          descripcion: "Observación",
+          values: widget.data[6],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected7 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Trampa Izq.:",
-          descripcion: "Motivo del daño",
-          value: _isSelected8,
-          active: true,
+        LabeledCheckbox2(
+          label: "Trampa Izq.:  ",
+          descripcion: "Observación",
+          values: widget.data[7],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected8 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Fierro:",
-          descripcion: "Motivo del daño",
-          value: _isSelected9,
-          active: true,
+        LabeledCheckbox2(
+          label: "Fierro:  ",
+          descripcion: "Observación",
+          values: widget.data[8],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected9 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Tapon de Diesel Izq:",
-          descripcion: "Motivo del daño",
-          value: _isSelected10,
-          active: true,
+        LabeledCheckbox2(
+          label: "Tapon de Diesel Izq:  ",
+          descripcion: "Observación",
+          values: widget.data[9],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected10 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llanta 1:",
-          descripcion: "Motivo del daño",
-          value: _isSelected11,
-          active: true,
+        LabeledCheckbox2(
+          label: "1-Llanta :  ",
+          descripcion: "Observación",
+          values: widget.llantas[0],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected11 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llanta 3:",
-          descripcion: "Motivo del daño",
-          value: _isSelected12,
-          active: true,
+        LabeledCheckbox2(
+          label: "3-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[1],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected12 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llanta 5:",
-          descripcion: "Motivo del daño",
-          value: _isSelected13,
-          active: true,
+        LabeledCheckbox2(
+          label: "5-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[2],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected13 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llanta 7:",
-          descripcion: "Motivo del daño",
-          value: _isSelected14,
-          active: true,
+        LabeledCheckbox2(
+          label: "7-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[3],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected14 = values;
-            });
-          },
         ),
-        LabeledCheckbox(
-          label: "Llanta 9:",
-          descripcion: "Motivo del daño",
-          value: _isSelected15,
-          active: true,
+        LabeledCheckbox2(
+          label: "9-Llanta : ",
+          descripcion: "Observación",
+          values: widget.llantas[4],
+          active: false,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
-          onChanged: (bool values) {
-            setState(() {
-              this._isSelected15 = values;
-            });
-          },
         ),
-        Text("\n"),
       ],
     );
   }

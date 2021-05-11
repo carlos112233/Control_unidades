@@ -9,13 +9,16 @@ class Formulario extends StatelessWidget {
   final String clbitacora;
   final String operador;
   final String unidad;
+  final String placaunidad;
   final String cliente;
   final String terbitacora;
   final String folbitacora;
   final String tractoClave;
   final String tractoNumEco;
   final String rem1;
+  final String rem1placa;
   final String rem2;
+  final String rem2placa;
   final String dolly;
   final String origen;
   final String destino;
@@ -38,6 +41,9 @@ class Formulario extends StatelessWidget {
     this.origen,
     this.destino,
     this.ruta,
+    this.placaunidad,
+    this.rem1placa,
+    this.rem2placa,
   }) : super(key: key);
 
   @override
@@ -56,7 +62,7 @@ class Formulario extends StatelessWidget {
               padding: EdgeInsets.only(right: 28.0),
               child: GestureDetector(
                 onTap: () {
-                  _fecha(context);
+                  _fecha(context, unidad, rem1, rem2, dolly);
                 },
                 child: Icon(
                   Icons.arrow_right_alt,
@@ -230,24 +236,33 @@ class Formulario extends StatelessWidget {
     );
   }
 
-  void _fecha(BuildContext context) async {
+  void _fecha(
+    BuildContext context,
+    String unidad,
+    String remolque,
+    String remolque2,
+    String dolly,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool fecha = prefs.getBool('fecha');
     String entrada = prefs.getString('Entrada');
-    if (fecha) {
+    prefs.setString("unidad", unidad);
+    prefs.setString("remolque", remolque);
+    prefs.setString("remolque2", remolque2);
+    prefs.setString("dolly", dolly);
+    if (fecha != false) {
       prefs.setBool("fecha", false);
       print(entrada);
-      // inset estatus y fecha;
-      //
-      //
-      //
-      //
-      //
+
       if (rem2 == null) {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
               return InspecTractoList(
+                unidad: unidad,
+                placasunida: placaunidad,
+                rem1: remolque,
+                placasrem1: rem1placa,
                 bolrem2: false,
               );
             },
@@ -259,6 +274,13 @@ class Formulario extends StatelessWidget {
             builder: (context) {
               return InspecTractoList(
                 bolrem2: true,
+                unidad: unidad,
+                placasunida: placaunidad,
+                rem1: remolque,
+                placasrem1: rem1placa,
+                rem2: remolque2,
+                placasrem2: rem2placa,
+                dolly: dolly,
               );
             },
           ),

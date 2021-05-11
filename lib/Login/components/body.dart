@@ -138,7 +138,7 @@ class Body extends StatelessWidget {
     String versionName = packageInfo.version;
     print(versionName);
     String url2 =
-        "http://192.168.0.59:8000/proyectos/barcodePC/version_app.php";
+        "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/version_app.php";
     var respuesta = await http.post(url2, body: {
       'ver': versionName,
     }, headers: {
@@ -190,7 +190,8 @@ class Body extends StatelessWidget {
   }
 
   _launchURL() async {
-    const url = 'http://192.168.0.59:8000/proyectos/ver_app/cu.apk';
+    const url =
+        'http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/ver_app/cu.apk';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

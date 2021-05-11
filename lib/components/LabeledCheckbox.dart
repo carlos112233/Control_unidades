@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LabeledCheckbox extends StatelessWidget {
   final String label;
@@ -27,6 +29,50 @@ class LabeledCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> radio = [];
+    String label1 = '';
+    if (label.contains('LlantaT') ||
+        label.contains('LlantaD') ||
+        label.contains('LlantaR1') ||
+        label.contains('LlantaR2')) {
+      if (label.contains('LlantaR')) {
+        label1 = label.substring(0, 11);
+      } else {
+        label1 = label.substring(0, 9);
+      }
+
+      print(label1);
+      radio = [
+        TextFormField(
+          initialValue: values,
+          enabled: active,
+          controller: controller,
+          readOnly: false,
+          decoration: InputDecoration(
+            hintText: label,
+            labelText: descripcion,
+          ),
+          onChanged: onChanged2,
+        ),
+        RadioSelected(
+          label: label1,
+        ),
+      ];
+    } else {
+      radio = [
+        TextFormField(
+          initialValue: values,
+          enabled: active,
+          controller: controller,
+          readOnly: false,
+          decoration: InputDecoration(
+            hintText: label,
+            labelText: descripcion,
+          ),
+          onChanged: onChanged2,
+        ),
+      ];
+    }
     return InkWell(
       onTap: () {
         onChanged(!value);
@@ -46,23 +92,62 @@ class LabeledCheckbox extends StatelessWidget {
             ),
             Container(
               width: ancho,
-              child: Visibility(
-                visible: value,
-                child: TextFormField(
-                  initialValue: values,
-                  enabled: active,
-                  controller: controller,
-                  readOnly: false,
-                  decoration: InputDecoration(
-                    hintText: label,
-                    labelText: descripcion,
+              child: Column(
+                children: [
+                  Visibility(
+                    visible: value,
+                    child: Column(children: radio),
                   ),
-                  onChanged: onChanged2,
-                ),
+                ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class RadioSelected extends StatefulWidget {
+  final String label;
+
+  const RadioSelected({
+    Key key,
+    this.label,
+  }) : super(key: key);
+  @override
+  _RadioSelectedState createState() => _RadioSelectedState();
+}
+
+class _RadioSelectedState extends State<RadioSelected> {
+  String _picked = "Daño";
+  void _guardar(String selected, int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String result = prefs.getString(widget.label);
+    print(result);
+  }
+
+  void _selected(String selected) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //print(widget.label);
+    prefs.setString(widget.label, _picked);
+    setState(() {
+      _picked = selected;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: RadioButtonGroup(
+        orientation: GroupedButtonsOrientation.HORIZONTAL,
+        labels: <String>[
+          "Daño",
+          "Cambio",
+        ],
+        onChange: _guardar,
+        onSelected: _selected,
+        picked: _picked,
       ),
     );
   }

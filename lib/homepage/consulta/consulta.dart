@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:control_unidades/Login/components/background.dart';
 import 'package:control_unidades/components/inputconsulta.dart';
 import 'package:flutter/material.dart';
@@ -93,21 +95,24 @@ class _ConsultaState extends State<Consulta> {
   Future<bool> _onBackPressed(BuildContext context) {
     return showDialog(
           context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Salir'),
-            content: new Text('¿Esta seguro de Salír de la app?'),
-            actions: <Widget>[
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("NO"),
-              ),
-              SizedBox(height: 16),
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(true),
-                child: Text("Si"),
-              ),
-            ],
-          ),
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Are you sure?'),
+              content: Text('Do you want to exit an App'),
+              actions: <Widget>[
+                OutlinedButton(
+                  child: Text('No'),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                ),
+                OutlinedButton(
+                  child: Text('Yes'),
+                  onPressed: () => exit(0),
+                )
+              ],
+            );
+          },
         ) ??
         false;
   }

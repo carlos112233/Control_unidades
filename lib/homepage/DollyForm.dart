@@ -5,25 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Dolly extends StatelessWidget {
+  final String unidad;
+  final String placasunida;
   final String dolly;
-  final String llanta1;
-  final String llanta2;
+  final String rem1;
+  final String placasrem1;
+  final String rem2;
+  final String placasrem2;
 
   final Color colorRemolque;
   final Color colorDolly;
   final Color colorRemolque2;
   final Color colorTracto;
-  final bool rem2;
+  final bool rem2bool;
   const Dolly({
     Key key,
-    this.llanta1,
-    this.llanta2,
     this.dolly,
     this.colorRemolque,
     this.colorDolly,
     this.colorRemolque2,
     this.rem2,
     this.colorTracto,
+    this.unidad,
+    this.placasunida,
+    this.rem1,
+    this.placasrem1,
+    this.placasrem2,
+    this.rem2bool,
   }) : super(key: key);
 
   @override
@@ -31,7 +39,7 @@ class Dolly extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tracto"),
+        title: Text("Dolly"),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           Padding(
@@ -46,7 +54,14 @@ class Dolly extends StatelessWidget {
                           colorRemolque: colorRemolque,
                           colorRemolque2: colorRemolque2,
                           colorTracto: colorTracto,
-                          bolrem2: rem2,
+                          bolrem2: rem2bool,
+                          unidad: unidad,
+                          placasunida: placasunida,
+                          rem1: rem1,
+                          placasrem1: placasrem1,
+                          rem2: rem2,
+                          placasrem2: placasrem2,
+                          dolly: dolly,
                         ),
                       ),
                       (Route<dynamic> route) => false);
@@ -60,8 +75,18 @@ class Dolly extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
+          Column(
+            children: <Widget>[
+              Text(
+                "Seleccione en caso de algún daño",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
           Container(
-            height: size.height * .6,
+            height: size.height * 1.2,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
@@ -71,7 +96,7 @@ class Dolly extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       LabeledCheckbox2(
-                        label: "Economico Rem:  ",
+                        label: "Dolly:  ",
                         value: true,
                         values: dolly,
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -82,7 +107,7 @@ class Dolly extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: size.height * .6,
+                  width: size.height * .8,
                   color: Colors.white,
                   child: Column(
                     children: <Widget>[
@@ -116,6 +141,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool _isSelected12 = false;
   bool _isSelected13 = false;
   bool _isSelected14 = false;
+  final llanta2s = TextEditingController();
+  final llanta4s = TextEditingController();
+  final llanta6s = TextEditingController();
+  final llanta8s = TextEditingController();
+
+  void llenar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    llanta2s.text = prefs.getString("llantaDE1").trim();
+    llanta4s.text = prefs.getString("llantaDE3").trim();
+    llanta6s.text = prefs.getString("llantaDE5").trim();
+    llanta8s.text = prefs.getString("llantaDE7").trim();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    llenar();
+  }
+
   TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -124,9 +169,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       children: <Widget>[
         LabeledCheckbox(
           onChanged2: _doSomething,
-          controller: controller,
-          label: "Llanta 2:",
-          descripcion: "Motivo del daño",
+          controller: llanta2s,
+          label: "2-LlantaD " + llanta2s.text + ":",
+          descripcion: "Observación",
           value: _isSelected11,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -138,8 +183,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           },
         ),
         LabeledCheckbox(
-          label: "Llanta 4:",
-          descripcion: "Motivo del daño",
+          label: "4-LlantaD " + llanta4s.text + ":",
+          descripcion: "Observación",
+          controller: llanta4s,
           value: _isSelected12,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -151,8 +197,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           },
         ),
         LabeledCheckbox(
-          label: "Llanta 6:",
-          descripcion: "Motivo del daño",
+          label: "6-LlantaD " + llanta6s.text + ":",
+          descripcion: "Observación",
+          controller: llanta6s,
           value: _isSelected13,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -164,8 +211,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           },
         ),
         LabeledCheckbox(
-          label: "Llanta 8:",
-          descripcion: "Motivo del daño",
+          label: "8-LlantaD " + llanta8s.text + ":",
+          descripcion: "Observación",
+          controller: llanta8s,
           value: _isSelected14,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -180,17 +228,25 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
   }
 
-  Future<void> _doSomething(String text) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  void _doSomething(String text) {
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(llanta2s.text);
+    guardar();
+  }
 
-    setState(() {
-      prefs.setString("valor", text);
-    });
+  void guardar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("llanta2d", llanta2s.text);
+    prefs.setString("llanta4d", llanta4s.text);
+    prefs.setString("llanta6d", llanta6s.text);
+    prefs.setString("llanta8d", llanta8s.text);
+    setState(() {});
   }
 }
 
 class MyStateful2Widget extends StatefulWidget {
-  const MyStateful2Widget({key}) : super(key: key);
+  final String dolly;
+  const MyStateful2Widget({key, this.dolly}) : super(key: key);
 
   @override
   _MyStateful2WidgetState createState() => _MyStateful2WidgetState();
@@ -202,7 +258,26 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
   bool _isSelected12 = false;
   bool _isSelected13 = false;
   bool _isSelected14 = false;
-  TextEditingController controller;
+  final llanta1s = TextEditingController();
+  final llanta3s = TextEditingController();
+  final llanta5s = TextEditingController();
+  final llanta7s = TextEditingController();
+
+  void llenar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    llanta1s.text = prefs.getString("llantaDE0").trim();
+    llanta3s.text = prefs.getString("llantaDE2").trim();
+    llanta5s.text = prefs.getString("llantaDE4").trim();
+    llanta7s.text = prefs.getString("llantaDE6").trim();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    llenar();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -210,9 +285,9 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
       children: <Widget>[
         LabeledCheckbox(
           onChanged2: _doSomething,
-          label: "Llanta 1:",
-          descripcion: "Motivo del daño",
-          controller: controller,
+          label: "1-LlantaD " + llanta1s.text + ":",
+          descripcion: "Observación",
+          controller: llanta1s,
           value: _isSelected11,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -224,9 +299,10 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
           },
         ),
         LabeledCheckbox(
-          label: "Llanta 3:",
-          descripcion: "Motivo del daño",
+          label: "3-LlantaD " + llanta3s.text + ":",
+          descripcion: "Observación",
           value: _isSelected12,
+          controller: llanta3s,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
@@ -237,9 +313,10 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
           },
         ),
         LabeledCheckbox(
-          label: "Llanta 5:",
-          descripcion: "Motivo del daño",
+          label: "5-LlantaD " + llanta7s.text + ":",
+          descripcion: "Observación",
           value: _isSelected13,
+          controller: llanta5s,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           ancho: size.width * .23,
@@ -250,8 +327,9 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
           },
         ),
         LabeledCheckbox(
-          label: "Llanta 7:",
-          descripcion: "Motivo del daño",
+          controller: llanta7s,
+          label: "7-LlantaD " + llanta7s.text + ":",
+          descripcion: "Observación",
           value: _isSelected14,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -266,11 +344,19 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
     );
   }
 
-  Future<void> _doSomething(String text) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  void _doSomething(String text) {
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(llanta1s.text);
+    guardar();
+  }
 
-    setState(() {
-      prefs.setString("valor", text);
-    });
+  void guardar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("dolly", widget.dolly);
+    prefs.setString("llanta2d", llanta1s.text);
+    prefs.setString("llanta4d", llanta3s.text);
+    prefs.setString("llanta6d", llanta5s.text);
+    prefs.setString("llanta8d", llanta7s.text);
+    setState(() {});
   }
 }
