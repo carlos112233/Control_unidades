@@ -1,10 +1,10 @@
+import 'package:control_unidades/class/count.dart';
 import 'package:control_unidades/class/cperror.dart';
 import 'package:control_unidades/class/cpunidades.dart';
 import 'package:control_unidades/class/dolly.dart';
 import 'package:control_unidades/class/llantasTrc.dart';
 import 'package:control_unidades/class/remolque1.dart';
 import 'package:control_unidades/class/remolques.dart';
-import 'package:control_unidades/class/tracto.dart';
 import 'package:control_unidades/components/rounded_button.dart';
 import 'package:control_unidades/homepage/consulta/formulario.dart';
 import 'package:control_unidades/homepage/consulta/historicoTracto.dart';
@@ -24,7 +24,8 @@ class InputCPUnidades extends StatelessWidget {
   void _datos(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String cp = prefs.getString("valor");
-    String url = "http://192.168.0.59:8000/proyectos/barcodePC/consulta_cp.php";
+    String url =
+        "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/consulta_cp.php";
     var respuesta = await http.post(url, body: {
       'cp': cp
     }, headers: {
@@ -40,7 +41,7 @@ class InputCPUnidades extends StatelessWidget {
       var respuesta2;
       if (datos.remNe2 == null) {
         String url2 =
-            "http://192.168.0.59:8000/proyectos/barcodePC/remolques.php";
+            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/remolques.php";
         respuesta2 = await http.post(
           url2,
           body: {
@@ -52,17 +53,18 @@ class InputCPUnidades extends StatelessWidget {
             'Content-Type': 'application/x-www-form-urlencoded'
           },
         );
-        final remolque = rem1FromJson(respuesta2.body);
-        prefs.setString("PlacaRem", remolque.rem1.placas.placa1);
-        for (var i = 0; i < remolque.rem1.the0.llantas.length; i++) {
-          prefs.setString(
-              "llantarem1-$i", remolque.rem1.the0.llantas[i].descripcion);
-          prefs.setString(
-              "llantarem1marca-$i", remolque.rem1.the0.llantas[i].marcaDescrip);
-        }
+        final remolque = remolque1FromJson(respuesta2.body);
+        String remplaca = remolque.rem1.placas.placa1;
+        int i = 0;
+        remolque.rem1.llantas.forEach((element) {
+          prefs.setString("llantarem1Eco$i", element.llantaNumEco);
+          prefs.setString("llantarem1marca$i", element.marcaDescrip);
+          prefs.setString("llantarem1des$i", element.descripcion);
+          i++;
+        });
 
         String url3 =
-            "http://192.168.0.59:8000/proyectos/barcodePC/trac_llantas.php";
+            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/trac_llantas.php";
         var respuesta3 = await http.post(url3, body: {
           'eco': datos.tractoNumEco,
         }, headers: {
@@ -70,10 +72,11 @@ class InputCPUnidades extends StatelessWidget {
           'Content-Type': 'application/x-www-form-urlencoded'
         });
         final llantas = llantasTracFromJson(respuesta3.body);
-        int i = 0;
+        i = 0;
         llantas.llanta.forEach((key, value) {
-          prefs.setString("llantaTractoeco-$i", value.llantaNumEco);
-          prefs.setString("llantadescrip-$i", value.descrip);
+          prefs.setString("llantaTractoeco$i", value.llantaNumEco);
+          prefs.setString("llantaTracto$i", value.descrip);
+          prefs.setString("llantaTractomarca$i", value.marcaDescrip);
           i++;
         });
 
@@ -84,12 +87,12 @@ class InputCPUnidades extends StatelessWidget {
                 clbitacora: datos.claveBitacora,
                 operador: datos.operadorNombre,
                 unidad: datos.tractoNumEco,
+                placaunidad: datos.tractoPlacas,
                 cliente: datos.clienteNombre,
                 terbitacora: datos.terminalBitacora,
                 folbitacora: datos.folioBitacora,
                 rem1: datos.remNe1,
-                dolly: datos.dollyNe,
-                rem2: datos.remNe2,
+                rem1placa: remplaca,
                 origen: datos.origenNom,
                 destino: datos.destinatarioNom,
                 ruta: datos.rutaServicio,
@@ -99,7 +102,7 @@ class InputCPUnidades extends StatelessWidget {
         );
       } else {
         String url2 =
-            "http://192.168.0.59:8000/proyectos/barcodePC/remolques.php";
+            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/remolques.php";
         respuesta2 = await http.post(
           url2,
           body: {
@@ -112,10 +115,8 @@ class InputCPUnidades extends StatelessWidget {
           },
         );
         final remolque = remolquesFromJson(respuesta2.body);
-        prefs.setString("PlacaRem", remolque.rem1.placas.placa1);
-        prefs.setString("PlacaRem2", remolque.rem2.placas.placa2);
         String url4 =
-            "http://192.168.0.59:8000/proyectos/barcodePC/Dolly_llant.php";
+            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/Dolly_llant.php";
         var respuesta4 = await http.post(
           url4,
           body: {
@@ -130,24 +131,33 @@ class InputCPUnidades extends StatelessWidget {
 
         int i = 0;
         llantasDol.llantas.forEach((element) {
-          prefs.setString("llantaDol-$i", element.descripcion);
-          prefs.setString("llantaDol-$i", element.marcaDescrip);
+          prefs.setString("llantaDDes$i", element.descripcion);
+          prefs.setString("llantaDE$i", element.llantaNumEco);
+          prefs.setString("llantaDM$i", element.marcaDescrip);
+          print(element.llantaNumEco);
+          i++;
         });
         i = 0;
+        String rem1placas = remolque.rem1.placas.placa1;
+        String rem2placas = remolque.rem2.placas.placa2;
+        print(rem2placas);
+        print(rem1placas);
         remolque.rem1.the0.llantas.forEach((element) {
-          prefs.setString("llantarem1-$i", element.descripcion);
-          prefs.setString("llantarem1marca-$i", element.marcaDescrip);
+          prefs.setString("llantarem1descrip$i", element.descripcion);
+          prefs.setString("llantarem1Eco$i", element.llantaNumEco);
+          prefs.setString("llantarem1marca$i", element.marcaDescrip);
           i++;
         });
         i = 0;
         remolque.rem2.the0.llantas.forEach((element) {
-          prefs.setString("llantarem1-$i", element.descripcion);
-          prefs.setString("llantarem1marca-$i", element.marcaDescrip);
+          prefs.setString("llantarem2descrip$i", element.descripcion);
+          prefs.setString("llantarem2Eco$i", element.llantaNumEco);
+          prefs.setString("llantarem2marca$i", element.marcaDescrip);
           i++;
         });
 
         String url3 =
-            "http://192.168.0.59:8000/proyectos/barcodePC/trac_llantas.php";
+            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/trac_llantas.php";
         var respuesta3 = await http.post(url3, body: {
           'eco': datos.tractoNumEco,
         }, headers: {
@@ -157,13 +167,12 @@ class InputCPUnidades extends StatelessWidget {
         final llantas = llantasTracFromJson(respuesta3.body);
         i = 0;
         llantas.llanta.forEach((key, value) {
-          prefs.setString("llantaTracto-$i", value.descrip);
-          prefs.setString("llantaTractomarca-$i", value.marcaDescrip);
-        });
+          prefs.setString("llantaTractoeco$i", value.llantaNumEco);
+          prefs.setString("llantaTracto$i", value.descrip);
+          prefs.setString("llantaTractomarca$i", value.marcaDescrip);
 
-        // prefs.setString("llantaTractoeco-0", llantas.llanta[0].llantaNumEco);
-        // prefs.setString("llantadescrip-0", llantas.llanta[0].descrip);
-        // prefs.setString("llantaposicion-0", llantas.llanta[0].llantaPos);
+          i++;
+        });
 
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -172,12 +181,15 @@ class InputCPUnidades extends StatelessWidget {
                 clbitacora: datos.claveBitacora,
                 operador: datos.operadorNombre,
                 unidad: datos.tractoNumEco,
+                placaunidad: datos.tractoPlacas,
                 cliente: datos.clienteNombre,
                 terbitacora: datos.terminalBitacora,
                 folbitacora: datos.folioBitacora,
                 rem1: datos.remNe1,
+                rem1placa: rem1placas,
                 dolly: datos.dollyNe,
                 rem2: datos.remNe2,
+                rem2placa: rem2placas,
                 origen: datos.origenNom,
                 destino: datos.destinatarioNom,
                 ruta: datos.rutaServicio,
@@ -216,32 +228,57 @@ class InputCPUnidades extends StatelessWidget {
     }
   }
 
-  void _tracto(BuildContext context) async {
+  Future<void> _tracto(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String tr = prefs.getString("valor");
-    String url = "http://192.168.0.59:8000/proyectos/barcodePC/tracto.php";
-    var respuesta = await http.post(url, body: {
-      'tr': tr
-    }, headers: {
-      'Accept': 'application/javascript',
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-
-    final error = cpErrorFromJson(respuesta.body);
-
-    if (error.mensaje == null) {
-      final datos = tractoFromJson(respuesta.body);
-      print(datos.tractoNumEco);
-
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            return HistoricoTracto(
-              historico: 20,
+    if (tr != null || tr != '') {
+      String url2 =
+          "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/cont_historico.php";
+      var respuesta2 = await http.post(url2,
+          body: {'count': tr},
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'});
+      final count = countFromJson(respuesta2.body);
+      int conteo = count.reg;
+      final error = cpErrorFromJson(respuesta2.body);
+      if (error.mensaje == null) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return HistoricoTracto(
+                historico: conteo,
+                unidad: tr.toUpperCase(),
+              );
+            },
+          ),
+        );
+      } else {
+        return showDialog<void>(
+          context: context,
+          barrierDismissible:
+              false, //this means the user must tap a button to exit the Alert Dialog
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text(error.mensaje),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                // ignore: deprecated_member_use
+                FlatButton(
+                  child: Text('ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             );
           },
-        ),
-      );
+        );
+      }
     } else {
       return showDialog<void>(
         context: context,
@@ -253,7 +290,7 @@ class InputCPUnidades extends StatelessWidget {
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text(error.mensaje),
+                  Text("Esta vacio el campo"),
                 ],
               ),
             ),
@@ -274,8 +311,6 @@ class InputCPUnidades extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String valor;
-
     return Align(
       alignment: Alignment.center,
       child: Container(
@@ -290,12 +325,12 @@ class InputCPUnidades extends StatelessWidget {
             RoundButton(
               text: 'Enviar',
               press: () {
+                print(seleccion);
                 if (seleccion == "Unidad") {
                   _tracto(context);
                 } else if (seleccion == "Carta porte") {
                   _datos(context);
-                } else if (valor == null) {
-                  print("$seleccion <-");
+                } else if (seleccion == null) {
                   return showDialog<void>(
                     context: context,
                     barrierDismissible:
@@ -349,11 +384,9 @@ class _MyWidgetState extends State<MyWidget> {
     );
   }
 
-  Future<void> _doSomething(String text) async {
+  void _doSomething(String text) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      prefs.setString("valor", text);
-    });
+    print(text);
+    prefs.setString("valor", text);
   }
 }

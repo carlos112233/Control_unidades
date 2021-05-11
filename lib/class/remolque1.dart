@@ -2,21 +2,25 @@
 //
 //     final rem1 = rem1FromJson(jsonString);
 
+// To parse this JSON data, do
+//
+//     final remolque1 = remolque1FromJson(jsonString);
+
 import 'dart:convert';
 
-Rem1 rem1FromJson(String str) => Rem1.fromJson(json.decode(str));
+Remolque1 remolque1FromJson(String str) => Remolque1.fromJson(json.decode(str));
 
-String rem1ToJson(Rem1 data) => json.encode(data.toJson());
+String remolque1ToJson(Remolque1 data) => json.encode(data.toJson());
 
-class Rem1 {
-  Rem1({
+class Remolque1 {
+  Remolque1({
     this.rem1,
   });
 
-  Rem1Class rem1;
+  Rem1 rem1;
 
-  factory Rem1.fromJson(Map<String, dynamic> json) => Rem1(
-        rem1: Rem1Class.fromJson(json["rem1"]),
+  factory Remolque1.fromJson(Map<String, dynamic> json) => Remolque1(
+        rem1: Rem1.fromJson(json["rem1"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -24,23 +28,48 @@ class Rem1 {
       };
 }
 
-class Rem1Class {
-  Rem1Class({
-    this.the0,
+class Rem1 {
+  Rem1({
     this.placas,
+    this.llantas,
   });
 
-  The0 the0;
   Placas placas;
+  List<Llanta> llantas;
 
-  factory Rem1Class.fromJson(Map<String, dynamic> json) => Rem1Class(
-        the0: The0.fromJson(json["0"]),
+  factory Rem1.fromJson(Map<String, dynamic> json) => Rem1(
         placas: Placas.fromJson(json["placas"]),
+        llantas:
+            List<Llanta>.from(json["llantas"].map((x) => Llanta.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "0": the0.toJson(),
         "placas": placas.toJson(),
+        "llantas": List<dynamic>.from(llantas.map((x) => x.toJson())),
+      };
+}
+
+class Llanta {
+  Llanta({
+    this.llantaNumEco,
+    this.marcaDescrip,
+    this.descripcion,
+  });
+
+  String llantaNumEco;
+  String marcaDescrip;
+  String descripcion;
+
+  factory Llanta.fromJson(Map<String, dynamic> json) => Llanta(
+        llantaNumEco: json["llanta_num_eco"],
+        marcaDescrip: json["marca_descrip"],
+        descripcion: json["descripcion"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "llanta_num_eco": llantaNumEco,
+        "marca_descrip": marcaDescrip,
+        "descripcion": descripcion,
       };
 }
 
@@ -57,46 +86,5 @@ class Placas {
 
   Map<String, dynamic> toJson() => {
         "placa1": placa1,
-      };
-}
-
-class The0 {
-  The0({
-    this.llantas,
-  });
-
-  List<Llanta> llantas;
-
-  factory The0.fromJson(Map<String, dynamic> json) => The0(
-        llantas:
-            List<Llanta>.from(json["llantas"].map((x) => Llanta.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "llantas": List<dynamic>.from(llantas.map((x) => x.toJson())),
-      };
-}
-
-class Llanta {
-  Llanta({
-    this.llantaPos,
-    this.marcaDescrip,
-    this.descripcion,
-  });
-
-  String llantaPos;
-  String marcaDescrip;
-  String descripcion;
-
-  factory Llanta.fromJson(Map<String, dynamic> json) => Llanta(
-        llantaPos: json["LLANTA_POS"],
-        marcaDescrip: json["marca_descrip"],
-        descripcion: json["descripcion"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "LLANTA_POS": llantaPos,
-        "marca_descrip": marcaDescrip,
-        "descripcion": descripcion,
       };
 }
