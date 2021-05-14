@@ -302,6 +302,8 @@ class InspecTractoList extends StatelessWidget {
     String llanta7D = prefs.getString("llanta7d");
     String llanta8D = prefs.getString("llanta8d");
     String dolly = prefs.getString("dolly");
+    String user = prefs.getString("user");
+    print(user);
     //rem
     String fmrem1 = prefs.getString("fmrem1");
     String serem1 = prefs.getString("serem1");

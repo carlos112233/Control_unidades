@@ -25,7 +25,7 @@ class InputCPUnidades extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String cp = prefs.getString("valor");
     String url =
-        "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/consulta_cp.php";
+        "http://supertrack-net.ddns.net:50371/Controldeunidades/php/consulta_cp.php";
     var respuesta = await http.post(url, body: {
       'cp': cp
     }, headers: {
@@ -41,7 +41,7 @@ class InputCPUnidades extends StatelessWidget {
       var respuesta2;
       if (datos.remNe2 == null) {
         String url2 =
-            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/remolques.php";
+            "http://supertrack-net.ddns.net:50371/Controldeunidades/php/remolques.php";
         respuesta2 = await http.post(
           url2,
           body: {
@@ -64,7 +64,7 @@ class InputCPUnidades extends StatelessWidget {
         });
 
         String url3 =
-            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/trac_llantas.php";
+            "http://supertrack-net.ddns.net:50371/Controldeunidades/php/trac_llantas.php";
         var respuesta3 = await http.post(url3, body: {
           'eco': datos.tractoNumEco,
         }, headers: {
@@ -102,7 +102,7 @@ class InputCPUnidades extends StatelessWidget {
         );
       } else {
         String url2 =
-            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/remolques.php";
+            "http://supertrack-net.ddns.net:50371/Controldeunidades/php/remolques.php";
         respuesta2 = await http.post(
           url2,
           body: {
@@ -116,7 +116,7 @@ class InputCPUnidades extends StatelessWidget {
         );
         final remolque = remolquesFromJson(respuesta2.body);
         String url4 =
-            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/Dolly_llant.php";
+            "http://supertrack-net.ddns.net:50371/Controldeunidades/php/Dolly_llant.php";
         var respuesta4 = await http.post(
           url4,
           body: {
@@ -134,18 +134,18 @@ class InputCPUnidades extends StatelessWidget {
           prefs.setString("llantaDDes$i", element.descripcion);
           prefs.setString("llantaDE$i", element.llantaNumEco);
           prefs.setString("llantaDM$i", element.marcaDescrip);
-          print(element.llantaNumEco);
+          print("$i dolly-" + element.llantaNumEco);
           i++;
         });
         i = 0;
         String rem1placas = remolque.rem1.placas.placa1;
         String rem2placas = remolque.rem2.placas.placa2;
-        print(rem2placas);
-        print(rem1placas);
+
         remolque.rem1.the0.llantas.forEach((element) {
           prefs.setString("llantarem1descrip$i", element.descripcion);
           prefs.setString("llantarem1Eco$i", element.llantaNumEco);
           prefs.setString("llantarem1marca$i", element.marcaDescrip);
+          print("$i rem1-" + element.llantaNumEco);
           i++;
         });
         i = 0;
@@ -153,11 +153,12 @@ class InputCPUnidades extends StatelessWidget {
           prefs.setString("llantarem2descrip$i", element.descripcion);
           prefs.setString("llantarem2Eco$i", element.llantaNumEco);
           prefs.setString("llantarem2marca$i", element.marcaDescrip);
+          print("$i rem2-" + element.llantaNumEco);
           i++;
         });
 
         String url3 =
-            "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/trac_llantas.php";
+            "http://supertrack-net.ddns.net:50371/Controldeunidades/php/trac_llantas.php";
         var respuesta3 = await http.post(url3, body: {
           'eco': datos.tractoNumEco,
         }, headers: {
@@ -170,7 +171,7 @@ class InputCPUnidades extends StatelessWidget {
           prefs.setString("llantaTractoeco$i", value.llantaNumEco);
           prefs.setString("llantaTracto$i", value.descrip);
           prefs.setString("llantaTractomarca$i", value.marcaDescrip);
-
+          print("$i trac-" + value.llantaNumEco);
           i++;
         });
 
@@ -233,7 +234,7 @@ class InputCPUnidades extends StatelessWidget {
     String tr = prefs.getString("valor");
     if (tr != null || tr != '') {
       String url2 =
-          "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/cont_historico.php";
+          "http://supertrack-net.ddns.net:50371/Controldeunidades/php/cont_historico.php";
       var respuesta2 = await http.post(url2,
           body: {'count': tr},
           headers: {'Content-Type': 'application/x-www-form-urlencoded'});
