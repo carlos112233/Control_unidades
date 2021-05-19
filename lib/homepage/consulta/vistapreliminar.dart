@@ -647,6 +647,7 @@ class VistaPreliminar extends StatelessWidget {
   void _guardarem(List<String> list) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String fecha = prefs.getString('Entrada');
+    String cp = prefs.getString('valor');
     var url =
         "http://supertrack-net.ddns.net:50371/Controldeunidades/php/insert_rev_rems.php";
     var respuesta = await http.post(url, body: {
@@ -663,6 +664,7 @@ class VistaPreliminar extends StatelessWidget {
       'Pared_frontal': list[9],
       'Piso_Par_Int': list[10],
       'fecha': fecha,
+      'cp': cp.toUpperCase(),
     }, headers: {
       'Accept': 'application/javascript',
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -674,6 +676,7 @@ class VistaPreliminar extends StatelessWidget {
   void _guardarllantas(List<String> list, trd, unidad) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String fecha = prefs.getString('Entrada');
+    String cp = prefs.getString('valor');
     var url =
         "http://supertrack-net.ddns.net:50371/Controldeunidades/php/llantas_insert.php";
     if (trd == "1") {
@@ -702,6 +705,7 @@ class VistaPreliminar extends StatelessWidget {
           'observaciones': element,
           'fecha': fecha,
           'tipo': tipo,
+          'cp': cp.toUpperCase(),
         }, headers: {
           'Accept': 'application/javascript',
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -738,6 +742,7 @@ class VistaPreliminar extends StatelessWidget {
           'observaciones': element,
           'fecha': fecha,
           'tipo': tipo,
+          'cp': cp.toUpperCase(),
         }, headers: {
           'Accept': 'application/javascript',
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -771,6 +776,7 @@ class VistaPreliminar extends StatelessWidget {
           'observaciones': element,
           'fecha': fecha,
           'tipo': tipo,
+          'cp': cp.toUpperCase(),
         }, headers: {
           'Accept': 'application/javascript',
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -805,6 +811,7 @@ class VistaPreliminar extends StatelessWidget {
           'observaciones': element,
           'fecha': fecha,
           'tipo': tipo,
+          'cp': cp.toUpperCase(),
         }, headers: {
           'Accept': 'application/javascript',
           'Content-Type': 'application/x-www-form-urlencoded'
