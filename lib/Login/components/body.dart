@@ -95,7 +95,9 @@ class Body extends StatelessWidget {
       print(mesaje.message);
       if (mesaje.message == '' || mesaje.message == null) {
         final resultado = reqResponseFromJson(respuesta.body);
-        prefs.setString('user', resultado.user.name);
+        String nombre = resultado.user.name;
+        print(nombre);
+        prefs.setString('user', nombre);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -136,11 +138,11 @@ class Body extends StatelessWidget {
   void updatebuil(BuildContext context) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String versionName = packageInfo.version;
-    print(versionName);
+    print(versionName + "  version local ");
     String url2 =
-        "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/version_app.php";
+        "http://supertrack-net.ddns.net:50371/Controldeunidades/php/version_app.php";
     var respuesta = await http.post(url2, body: {
-      'ver': versionName,
+      'ver': '1',
     }, headers: {
       'Accept': 'application/javascript',
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -191,7 +193,7 @@ class Body extends StatelessWidget {
 
   _launchURL() async {
     const url =
-        'http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/ver_app/cu.apk';
+        ' http://supertrack-net.ddns.net:50371/Controldeunidades/ver_app/cu.apk';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

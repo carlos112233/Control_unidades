@@ -102,7 +102,9 @@ class Dolly extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         ancho: 130,
                       ),
-                      MyStateful2Widget(),
+                      MyStateful2Widget(
+                        dolly: dolly,
+                      ),
                     ],
                   ),
                 ),
@@ -141,18 +143,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool _isSelected12 = false;
   bool _isSelected13 = false;
   bool _isSelected14 = false;
-  final llanta2s = TextEditingController();
-  final llanta4s = TextEditingController();
-  final llanta6s = TextEditingController();
-  final llanta8s = TextEditingController();
+  final llanta2 = TextEditingController();
+  final llanta4 = TextEditingController();
+  final llanta6 = TextEditingController();
+  final llanta8 = TextEditingController();
+  String llanta2s = "";
+  String llanta4s = "";
+  String llanta6s = "";
+  String llanta8s = "";
 
   void llenar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    llanta2s.text = prefs.getString("llantaDE1").trim();
-    llanta4s.text = prefs.getString("llantaDE3").trim();
-    llanta6s.text = prefs.getString("llantaDE5").trim();
-    llanta8s.text = prefs.getString("llantaDE7").trim();
+    llanta2s = prefs.getString("llantaDE1").trim();
+    llanta4s = prefs.getString("llantaDE3").trim();
+    llanta6s = prefs.getString("llantaDE5").trim();
+    llanta8s = prefs.getString("llantaDE7").trim();
   }
 
   @override
@@ -169,8 +175,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       children: <Widget>[
         LabeledCheckbox(
           onChanged2: _doSomething,
-          controller: llanta2s,
-          label: "2-LlantaD " + llanta2s.text + ":",
+          controller: llanta2,
+          label: "2-LlantaD " + llanta2s + ":",
           descripcion: "Observación",
           value: _isSelected11,
           active: true,
@@ -183,9 +189,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           },
         ),
         LabeledCheckbox(
-          label: "4-LlantaD " + llanta4s.text + ":",
+          label: "4-LlantaD " + llanta4s + ":",
           descripcion: "Observación",
-          controller: llanta4s,
+          controller: llanta4,
           value: _isSelected12,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -197,9 +203,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           },
         ),
         LabeledCheckbox(
-          label: "6-LlantaD " + llanta6s.text + ":",
+          label: "6-LlantaD " + llanta6s + ":",
           descripcion: "Observación",
-          controller: llanta6s,
+          controller: llanta6,
           value: _isSelected13,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -211,9 +217,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           },
         ),
         LabeledCheckbox(
-          label: "8-LlantaD " + llanta8s.text + ":",
+          label: "8-LlantaD " + llanta8s + ":",
           descripcion: "Observación",
-          controller: llanta8s,
+          controller: llanta8,
           value: _isSelected14,
           active: true,
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -230,16 +236,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   void _doSomething(String text) {
     //SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(llanta2s.text);
+    print(llanta2.text);
     guardar();
   }
 
   void guardar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("llanta2d", llanta2s.text);
-    prefs.setString("llanta4d", llanta4s.text);
-    prefs.setString("llanta6d", llanta6s.text);
-    prefs.setString("llanta8d", llanta8s.text);
+    prefs.setString("llanta2d", llanta2.text);
+    prefs.setString("llanta4d", llanta4.text);
+    prefs.setString("llanta6d", llanta6.text);
+    prefs.setString("llanta8d", llanta8.text);
     setState(() {});
   }
 }
@@ -262,14 +268,18 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
   final llanta3s = TextEditingController();
   final llanta5s = TextEditingController();
   final llanta7s = TextEditingController();
+  String llanta1 = "";
+  String llanta3 = "";
+  String llanta5 = "";
+  String llanta7 = "";
 
   void llenar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    llanta1s.text = prefs.getString("llantaDE0").trim();
-    llanta3s.text = prefs.getString("llantaDE2").trim();
-    llanta5s.text = prefs.getString("llantaDE4").trim();
-    llanta7s.text = prefs.getString("llantaDE6").trim();
+    llanta1 = prefs.getString("llantaDE0").trim();
+    llanta3 = prefs.getString("llantaDE2").trim();
+    llanta5 = prefs.getString("llantaDE4").trim();
+    llanta7 = prefs.getString("llantaDE6").trim();
   }
 
   @override
@@ -285,7 +295,7 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
       children: <Widget>[
         LabeledCheckbox(
           onChanged2: _doSomething,
-          label: "1-LlantaD " + llanta1s.text + ":",
+          label: "1-LlantaD " + llanta1 + ":",
           descripcion: "Observación",
           controller: llanta1s,
           value: _isSelected11,
@@ -299,7 +309,7 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
           },
         ),
         LabeledCheckbox(
-          label: "3-LlantaD " + llanta3s.text + ":",
+          label: "3-LlantaD " + llanta3 + ":",
           descripcion: "Observación",
           value: _isSelected12,
           controller: llanta3s,
@@ -313,7 +323,7 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
           },
         ),
         LabeledCheckbox(
-          label: "5-LlantaD " + llanta7s.text + ":",
+          label: "5-LlantaD " + llanta5 + ":",
           descripcion: "Observación",
           value: _isSelected13,
           controller: llanta5s,
@@ -328,7 +338,7 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
         ),
         LabeledCheckbox(
           controller: llanta7s,
-          label: "7-LlantaD " + llanta7s.text + ":",
+          label: "7-LlantaD " + llanta7 + ":",
           descripcion: "Observación",
           value: _isSelected14,
           active: true,
@@ -346,17 +356,17 @@ class _MyStateful2WidgetState extends State<MyStateful2Widget> {
 
   void _doSomething(String text) {
     //SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(llanta1s.text);
+    print(widget.dolly);
     guardar();
   }
 
   void guardar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("dolly", widget.dolly);
-    prefs.setString("llanta2d", llanta1s.text);
-    prefs.setString("llanta4d", llanta3s.text);
-    prefs.setString("llanta6d", llanta5s.text);
-    prefs.setString("llanta8d", llanta7s.text);
+    prefs.setString("llanta1d", llanta1s.text);
+    prefs.setString("llanta3d", llanta3s.text);
+    prefs.setString("llanta5d", llanta5s.text);
+    prefs.setString("llanta7d", llanta7s.text);
     setState(() {});
   }
 }

@@ -447,6 +447,7 @@ class VistaPreliminar extends StatelessWidget {
                   );
                   _limpiar(context);
                 } else {
+                  // ---------------------------------------------------------
                   //unidad
                   _guardartrac([
                     unidad,
@@ -486,21 +487,6 @@ class VistaPreliminar extends StatelessWidget {
                     techointrem1,
                     paredfrontalrem1,
                   ]);
-                  // //dolly
-                  _guardarllantas(
-                    [
-                      llanta1d,
-                      llanta2d,
-                      llanta3d,
-                      llanta4d,
-                      llanta5d,
-                      llanta6d,
-                      llanta7d,
-                      llanta8d,
-                    ],
-                    "4",
-                    dolly,
-                  );
                   // //remolque2
                   _guardarem([
                     unidadrem2,
@@ -548,6 +534,22 @@ class VistaPreliminar extends StatelessWidget {
                     "2",
                     unidadrem1,
                   );
+                  //Dolly
+                  _guardarllantas(
+                    [
+                      llanta1d,
+                      llanta2d,
+                      llanta3d,
+                      llanta4d,
+                      llanta5d,
+                      llanta6d,
+                      llanta7d,
+                      llanta8d,
+                    ],
+                    "3",
+                    dolly,
+                  );
+
                   //remolque2 llantas
                   _guardarllantas(
                     [
@@ -560,7 +562,7 @@ class VistaPreliminar extends StatelessWidget {
                       llantarem2Eco6,
                       llantarem2Eco7,
                     ],
-                    "3",
+                    "4",
                     unidadrem2,
                   );
 
@@ -586,8 +588,11 @@ class VistaPreliminar extends StatelessWidget {
   void _limpiar(BuildContext context) async {
     await Future.delayed(Duration(seconds: 3));
     SharedPreferences preferences = await SharedPreferences.getInstance();
+    var nombre = preferences.getString('user');
     await preferences.clear();
+    // ignore: deprecated_member_use
     await preferences.commit();
+    preferences.setString('user', nombre);
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -602,7 +607,7 @@ class VistaPreliminar extends StatelessWidget {
     String cp = prefs.getString('valor');
     String usuario = prefs.getString('user');
     var url =
-        "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/rev_trac.php";
+        "http://supertrack-net.ddns.net:50371/Controldeunidades/php/rev_trac.php";
     var respuesta = await http.post(url, body: {
       'rev_tracs': '1',
       'tracto_eco': datos[0],
@@ -642,8 +647,9 @@ class VistaPreliminar extends StatelessWidget {
   void _guardarem(List<String> list) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String fecha = prefs.getString('Entrada');
+    String cp = prefs.getString('valor');
     var url =
-        "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/insert_rev_rems.php";
+        "http://supertrack-net.ddns.net:50371/Controldeunidades/php/insert_rev_rems.php";
     var respuesta = await http.post(url, body: {
       'rev_rems': '1',
       'rem': list[0],
@@ -658,6 +664,7 @@ class VistaPreliminar extends StatelessWidget {
       'Pared_frontal': list[9],
       'Piso_Par_Int': list[10],
       'fecha': fecha,
+      'cp': cp.toUpperCase(),
     }, headers: {
       'Accept': 'application/javascript',
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -666,12 +673,13 @@ class VistaPreliminar extends StatelessWidget {
     print(respuest.mensaje);
   }
 
-  void _guardarllantas(List<String> list, tr, unidad) async {
+  void _guardarllantas(List<String> list, trd, unidad) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String fecha = prefs.getString('Entrada');
+    String cp = prefs.getString('valor');
     var url =
-        "http://supertrack-net.ddns.net:50371/impbarcodeapp/src/php/c.u/llantas_insert.php";
-    if (tr == "1") {
+        "http://supertrack-net.ddns.net:50371/Controldeunidades/php/llantas_insert.php";
+    if (trd == "1") {
       var i = 0;
       list.forEach((element) async {
         var tipo = prefs.getString("$i-LlantaT");
@@ -683,6 +691,9 @@ class VistaPreliminar extends StatelessWidget {
         if (tipo == null) {
           tipo = '';
         }
+        if (element == null) {
+          element = '';
+        }
         i++;
         var respuesta = await http.post(url, body: {
           'Lla_rems_dolly': '1',
@@ -694,6 +705,7 @@ class VistaPreliminar extends StatelessWidget {
           'observaciones': element,
           'fecha': fecha,
           'tipo': tipo,
+          'cp': cp.toUpperCase(),
         }, headers: {
           'Accept': 'application/javascript',
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -701,17 +713,23 @@ class VistaPreliminar extends StatelessWidget {
         final respuest = registrarFromJson(respuesta.body);
         print(respuest.mensaje);
       });
-    } else if (tr == "2") {
+    } else if (trd == "2") {
       var i = 0;
       list.forEach((element) async {
         var tipo = prefs.getString("$i-LlantaR1");
         var eco = prefs.getString("llantarem1Eco$i");
         var marca = prefs.getString("llantarem1marca$i");
-        var descrip = prefs.getString("llantarem1des$i");
+        var descrip = prefs.getString("llantarem1descrip$i");
         var pos1 = i + 1;
         String pos = pos1.toString();
         if (tipo == null) {
           tipo = '';
+        }
+        if (element == null) {
+          element = '';
+        }
+        if (descrip == null) {
+          descrip = '';
         }
         i++;
         var respuesta = await http.post(url, body: {
@@ -724,6 +742,7 @@ class VistaPreliminar extends StatelessWidget {
           'observaciones': element,
           'fecha': fecha,
           'tipo': tipo,
+          'cp': cp.toUpperCase(),
         }, headers: {
           'Accept': 'application/javascript',
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -731,17 +750,55 @@ class VistaPreliminar extends StatelessWidget {
         final respuest = registrarFromJson(respuesta.body);
         print(respuest.mensaje);
       });
-    } else if (tr == "3") {
+    } else if (trd == "3") {
+      var i = 0;
+      list.forEach((element) async {
+        var tipo = prefs.getString("$i-LlantaD");
+        var eco = prefs.getString("llantaDE$i");
+        var marca = prefs.getString("llantaDM$i");
+        var descrip = prefs.getString("llantaDDes$i");
+        var pos1 = i + 1;
+        String pos = pos1.toString();
+        if (tipo == null) {
+          tipo = '';
+        }
+        if (element == null) {
+          element = '';
+        }
+        i++;
+        var respuesta = await http.post(url, body: {
+          'Lla_rems_dolly': '1',
+          'rem_trac_dol': unidad,
+          'llanta': eco.trim(),
+          'posicion': pos,
+          'marca_descrip': marca.trim(),
+          'descrip': descrip.trim(),
+          'observaciones': element,
+          'fecha': fecha,
+          'tipo': tipo,
+          'cp': cp.toUpperCase(),
+        }, headers: {
+          'Accept': 'application/javascript',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        });
+        final respuest = registrarFromJson(respuesta.body);
+        print(respuest.mensaje);
+      });
+    } else if (trd == "4") {
       var i = 0;
       list.forEach((element) async {
         var tipo = prefs.getString("$i-LlantaR2");
         var eco = prefs.getString("llantarem2Eco$i");
         var marca = prefs.getString("llantarem2marca$i");
-        var descrip = prefs.getString("llantarem2des$i");
+        var descrip = prefs.getString("llantarem2descrip$i");
+
         var pos1 = i + 1;
         String pos = pos1.toString();
         if (tipo == null) {
           tipo = '';
+        }
+        if (element == null) {
+          element = '';
         }
         i++;
         var respuesta = await http.post(url, body: {
@@ -754,36 +811,7 @@ class VistaPreliminar extends StatelessWidget {
           'observaciones': element,
           'fecha': fecha,
           'tipo': tipo,
-        }, headers: {
-          'Accept': 'application/javascript',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        });
-        final respuest = registrarFromJson(respuesta.body);
-        print(respuest.mensaje);
-      });
-    } else if (tr == "4") {
-      var i = 0;
-      list.forEach((element) async {
-        var tipo = prefs.getString("$i-LlantaD");
-        var eco = prefs.getString("llantaDDes$i");
-        var marca = prefs.getString("llantaDM$i");
-        var descrip = prefs.getString("llantaDE$i");
-        var pos1 = i + 1;
-        String pos = pos1.toString();
-        if (tipo == null) {
-          tipo = '';
-        }
-        i++;
-        var respuesta = await http.post(url, body: {
-          'Lla_rems_dolly': '1',
-          'rem_trac_dol': unidad,
-          'llanta': eco.trim(),
-          'posicion': pos,
-          'marca_descrip': marca.trim(),
-          'descrip': descrip.trim(),
-          'observaciones': element,
-          'fecha': fecha,
-          'tipo': tipo,
+          'cp': cp.toUpperCase(),
         }, headers: {
           'Accept': 'application/javascript',
           'Content-Type': 'application/x-www-form-urlencoded'

@@ -71,6 +71,7 @@ class TractoForm extends StatelessWidget {
                           placasrem1: placasrem1,
                           rem2: rem2,
                           placasrem2: placasrem2,
+                          dolly: dolly,
                         ),
                       ),
                       (Route<dynamic> route) => false);
@@ -449,7 +450,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     prefs.setString("llantarevt4", llanta4s.text);
     prefs.setString("llantarevt6", llanta6s.text);
     prefs.setString("llantarevt8", llanta8s.text);
-    prefs.setString("llanta10", llanta10s.text);
+    prefs.setString("llantarevt10", llanta10s.text);
     prefs.setString("defensadelantera", defensadelantera.text);
     prefs.setString("motor", motor.text);
     prefs.setString("pisodecabiba", pisodecabiba.text);
