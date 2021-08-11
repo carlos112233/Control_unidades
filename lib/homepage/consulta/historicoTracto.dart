@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import '../Tracto2Form.dart';
 
 void _cargar(BuildContext context, id, unidad) async {
-  String url = "http://192.168.0.59:8000/proyectos/barcodePC/historico_rev.php";
+  String url =
+      "http://supertrack-net.ddns.net:50371/controldeunidades/php/historico_rev.php";
   var respuesta = await http.post(url, body: {
     'id': "$id",
     'trac': unidad,
@@ -16,7 +17,7 @@ void _cargar(BuildContext context, id, unidad) async {
   final data = historicoRevFromJson(respuesta.body);
 
   String url2 =
-      "http://192.168.0.59:8000/proyectos/barcodePC/select_llantas.php";
+      "http://supertrack-net.ddns.net:50371/controldeunidades/php/select_llantas.php";
   var respuesta2 = await http.post(url2, body: {
     'unidad': unidad,
     'rev': "$id",
@@ -87,15 +88,16 @@ class HistoricoTracto extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print(unidad);
     return Scaffold(
       appBar: new AppBar(
         title: Text('Historico'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(8),
-        children: new List.generate(
+        children: List.generate(
           historico,
-          (index) => new ListTile(
+          (index) => ListTile(
             title: Text('Unidad: $unidad '),
             subtitle: Text('Revision'),
             onTap: () {

@@ -96,8 +96,12 @@ class Body extends StatelessWidget {
       if (mesaje.message == '' || mesaje.message == null) {
         final resultado = reqResponseFromJson(respuesta.body);
         String nombre = resultado.user.name;
+        String token = resultado.accessToken;
         print(nombre);
+        print(token);
+        prefs.setString("Token", token);
         prefs.setString('user', nombre);
+
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -193,7 +197,7 @@ class Body extends StatelessWidget {
 
   _launchURL() async {
     const url =
-        ' http://supertrack-net.ddns.net:50371/Controldeunidades/ver_app/cu.apk';
+        'http://supertrack-net.ddns.net:50371/controldeunidades/ver_app/cp.apk';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

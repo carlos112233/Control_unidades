@@ -315,13 +315,15 @@ class InputCPUnidades extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: Container(
-        height: 250,
+        height: 350,
         width: 250,
         child: Column(
           children: <Widget>[
-            MyWidget(),
+            MyWidget(
+              seleccion: seleccion,
+            ),
             SizedBox(
-              height: 15,
+              height: 20,
             ),
             RoundButton(
               text: 'Enviar',
@@ -370,6 +372,9 @@ class InputCPUnidades extends StatelessWidget {
 }
 
 class MyWidget extends StatefulWidget {
+  final seleccion;
+
+  const MyWidget({this.seleccion});
   @override
   _MyWidgetState createState() => _MyWidgetState();
 }
@@ -377,12 +382,83 @@ class MyWidget extends StatefulWidget {
 class _MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      //                       <--- TextField
-      onChanged: (text) {
-        _doSomething(text);
-      },
-    );
+    if (widget.seleccion == "Unidad") {
+      return TextField(
+        //                       <--- TextField
+        decoration:
+            InputDecoration(border: InputBorder.none, hintText: "ST123"),
+        onChanged: (text) {
+          _doSomething(text);
+        },
+      );
+    } else if (widget.seleccion == "Carta porte") {
+      return TextField(
+        decoration:
+            InputDecoration(border: InputBorder.none, hintText: "PUE123"),
+        onChanged: (text) {
+          _doSomething(text);
+        },
+      );
+    } else if (widget.seleccion == "Catálogo de unidades") {
+      return Column(
+        children: <Widget>[
+          Text(
+            "Unidad",
+            style: TextStyle(fontSize: 20),
+          ),
+          TextField(
+            decoration:
+                InputDecoration(border: InputBorder.none, hintText: "ST123"),
+            onChanged: (text) {
+              _doSomething(text);
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Remolque-1",
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            decoration:
+                InputDecoration(border: InputBorder.none, hintText: "2154565"),
+            onChanged: (text) {
+              _doSomething(text);
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Remolque 2",
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            decoration: InputDecoration(
+                border: InputBorder.none, hintText: "5465121 Opcional"),
+            onChanged: (text) {
+              _doSomething(text);
+            },
+          ),
+        ],
+      );
+    } else {
+      return TextField(
+        //                       <--- TextField
+        decoration: InputDecoration(
+            border: InputBorder.none, hintText: "No ha seleccionado"),
+        onChanged: (text) {
+          _doSomething(text);
+        },
+      );
+    }
   }
 
   void _doSomething(String text) async {

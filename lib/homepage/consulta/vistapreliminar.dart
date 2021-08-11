@@ -367,6 +367,7 @@ class VistaPreliminar extends StatelessWidget {
 //
 //
 //
+    bool n = true;
     return Scaffold(
       appBar: AppBar(
         title: Text("Vista preliminar de Observaciones o Daños"),
@@ -375,198 +376,220 @@ class VistaPreliminar extends StatelessWidget {
             padding: EdgeInsets.only(right: 28.0),
             child: GestureDetector(
               onTap: () {
-                if (unidadrem2 == null) {
-                  //unidad
-                  _guardartrac([
-                    unidad,
-                    placaunida,
-                    motivoingreso,
-                    cabina,
-                    defensadelantera,
-                    tanqueAire,
-                    motor,
-                    ejeImpulsor,
-                    pisodecabiba,
-                    quintaRueda,
-                    tanquedeDiesel,
-                    escape,
-                    cMTIzq,
-                    cMTDer,
-                    capTanqueLTDer,
-                    capTanqueLTIzq,
-                    trampaIzq,
-                    trampaDer,
-                    aluminio,
-                    fierro,
-                    taponDieselDer,
-                    tapondeDieselIzq,
-                  ]);
-                  //rem
-                  _guardarem([
-                    unidadrem1,
-                    rem1placa,
-                    fmrem1,
-                    serem1,
-                    fdremrem1,
-                    partintderrem1,
-                    pisopartintrem1,
-                    pulizrem1,
-                    parinizqrem1,
-                    techointrem1,
-                    paredfrontalrem1,
-                  ]);
-                  _guardarllantas(
-                    [
-                      llanta1s,
-                      llanta2,
-                      llanta3s,
-                      llanta4,
-                      llanta5s,
-                      llanta6,
-                      llanta7s,
-                      llanta8,
-                      llanta9s,
-                      llanta10
-                    ],
-                    "1",
-                    unidad,
-                  );
-                  _guardarllantas(
-                    [
-                      llantarem1Eco0,
-                      llantarem1Eco1,
-                      llantarem1Eco2,
-                      llantarem1Eco3,
-                      llantarem1Eco4,
-                      llantarem1Eco5,
-                      llantarem1Eco6,
-                      llantarem1Eco7,
-                    ],
-                    "2",
-                    unidadrem1,
-                  );
-                  _limpiar(context);
-                } else {
-                  // ---------------------------------------------------------
-                  //unidad
-                  _guardartrac([
-                    unidad,
-                    placaunida,
-                    motivoingreso,
-                    cabina,
-                    defensadelantera,
-                    tanqueAire,
-                    motor,
-                    ejeImpulsor,
-                    pisodecabiba,
-                    quintaRueda,
-                    tanquedeDiesel,
-                    escape,
-                    cMTIzq,
-                    cMTDer,
-                    capTanqueLTDer,
-                    capTanqueLTIzq,
-                    trampaIzq,
-                    trampaDer,
-                    aluminio,
-                    fierro,
-                    taponDieselDer,
-                    tapondeDieselIzq,
-                  ]);
-                  //remolque1
-                  _guardarem([
-                    unidadrem1,
-                    rem1placa,
-                    fmrem1,
-                    serem1,
-                    fdremrem1,
-                    partintderrem1,
-                    pisopartintrem1,
-                    pulizrem1,
-                    parinizqrem1,
-                    techointrem1,
-                    paredfrontalrem1,
-                  ]);
-                  // //remolque2
-                  _guardarem([
-                    unidadrem2,
-                    rem2placa,
-                    fmrem2,
-                    serem2,
-                    fdremrem2,
-                    partintderrem2,
-                    pisopartintrem2,
-                    pulizrem2,
-                    parinizqrem2,
-                    techointrem2,
-                    paredfrontalrem2,
-                  ]);
-                  //unidad llantas
-                  _guardarllantas(
-                    [
-                      llanta1s,
-                      llanta2,
-                      llanta3s,
-                      llanta4,
-                      llanta5s,
-                      llanta6,
-                      llanta7s,
-                      llanta8,
-                      llanta9s,
-                      llanta10
-                    ],
-                    "1",
-                    unidad,
-                  );
-                  //remolque1 llantas
-                  _guardarllantas(
-                    [
+                if (n == true) {
+                  n = false;
+                  if (unidadrem2 == null) {
+                    //unidad
+                    _guardartrac([
+                      unidad,
+                      placaunida,
+                      motivoingreso,
+                      cabina,
+                      defensadelantera,
+                      tanqueAire,
+                      motor,
+                      ejeImpulsor,
+                      pisodecabiba,
+                      quintaRueda,
+                      tanquedeDiesel,
+                      escape,
+                      cMTIzq,
+                      cMTDer,
+                      capTanqueLTDer,
+                      capTanqueLTIzq,
+                      trampaIzq,
+                      trampaDer,
+                      aluminio,
+                      fierro,
+                      taponDieselDer,
+                      tapondeDieselIzq,
+                    ]);
+                    //rem
+                    _guardarem([
                       unidadrem1,
-                      llantarem1Eco0,
-                      llantarem1Eco1,
-                      llantarem1Eco2,
-                      llantarem1Eco3,
-                      llantarem1Eco5,
-                      llantarem1Eco4,
-                      llantarem1Eco6,
-                      llantarem1Eco7,
-                    ],
-                    "2",
-                    unidadrem1,
-                  );
-                  //Dolly
-                  _guardarllantas(
-                    [
-                      llanta1d,
-                      llanta2d,
-                      llanta3d,
-                      llanta4d,
-                      llanta5d,
-                      llanta6d,
-                      llanta7d,
-                      llanta8d,
-                    ],
-                    "3",
-                    dolly,
-                  );
+                      rem1placa,
+                      fmrem1,
+                      serem1,
+                      fdremrem1,
+                      partintderrem1,
+                      pisopartintrem1,
+                      pulizrem1,
+                      parinizqrem1,
+                      techointrem1,
+                      paredfrontalrem1,
+                    ]);
+                    _guardarllantas(
+                      [
+                        llanta1s,
+                        llanta2,
+                        llanta3s,
+                        llanta4,
+                        llanta5s,
+                        llanta6,
+                        llanta7s,
+                        llanta8,
+                        llanta9s,
+                        llanta10
+                      ],
+                      "1",
+                      unidad,
+                    );
+                    _guardarllantas(
+                      [
+                        llantarem1Eco0,
+                        llantarem1Eco1,
+                        llantarem1Eco2,
+                        llantarem1Eco3,
+                        llantarem1Eco4,
+                        llantarem1Eco5,
+                        llantarem1Eco6,
+                        llantarem1Eco7,
+                      ],
+                      "2",
+                      unidadrem1,
+                    );
+                    _limpiar(context);
+                  } else {
+                    // ---------------------------------------------------------
+                    //unidad
+                    _guardartrac([
+                      unidad,
+                      placaunida,
+                      motivoingreso,
+                      cabina,
+                      defensadelantera,
+                      tanqueAire,
+                      motor,
+                      ejeImpulsor,
+                      pisodecabiba,
+                      quintaRueda,
+                      tanquedeDiesel,
+                      escape,
+                      cMTIzq,
+                      cMTDer,
+                      capTanqueLTDer,
+                      capTanqueLTIzq,
+                      trampaIzq,
+                      trampaDer,
+                      aluminio,
+                      fierro,
+                      taponDieselDer,
+                      tapondeDieselIzq,
+                    ]);
+                    //remolque1
+                    _guardarem([
+                      unidadrem1,
+                      rem1placa,
+                      fmrem1,
+                      serem1,
+                      fdremrem1,
+                      partintderrem1,
+                      pisopartintrem1,
+                      pulizrem1,
+                      parinizqrem1,
+                      techointrem1,
+                      paredfrontalrem1,
+                    ]);
+                    // //remolque2
+                    _guardarem([
+                      unidadrem2,
+                      rem2placa,
+                      fmrem2,
+                      serem2,
+                      fdremrem2,
+                      partintderrem2,
+                      pisopartintrem2,
+                      pulizrem2,
+                      parinizqrem2,
+                      techointrem2,
+                      paredfrontalrem2,
+                    ]);
+                    //unidad llantas
+                    _guardarllantas(
+                      [
+                        llanta1s,
+                        llanta2,
+                        llanta3s,
+                        llanta4,
+                        llanta5s,
+                        llanta6,
+                        llanta7s,
+                        llanta8,
+                        llanta9s,
+                        llanta10
+                      ],
+                      "1",
+                      unidad,
+                    );
+                    //remolque1 llantas
+                    _guardarllantas(
+                      [
+                        unidadrem1,
+                        llantarem1Eco0,
+                        llantarem1Eco1,
+                        llantarem1Eco2,
+                        llantarem1Eco3,
+                        llantarem1Eco5,
+                        llantarem1Eco4,
+                        llantarem1Eco6,
+                        llantarem1Eco7,
+                      ],
+                      "2",
+                      unidadrem1,
+                    );
+                    //Dolly
+                    _guardarllantas(
+                      [
+                        llanta1d,
+                        llanta2d,
+                        llanta3d,
+                        llanta4d,
+                        llanta5d,
+                        llanta6d,
+                        llanta7d,
+                        llanta8d,
+                      ],
+                      "3",
+                      dolly,
+                    );
 
-                  //remolque2 llantas
-                  _guardarllantas(
-                    [
-                      llantarem2Eco0,
-                      llantarem2Eco1,
-                      llantarem2Eco2,
-                      llantarem2Eco3,
-                      llantarem2Eco4,
-                      llantarem2Eco5,
-                      llantarem2Eco6,
-                      llantarem2Eco7,
-                    ],
-                    "4",
-                    unidadrem2,
-                  );
+                    //remolque2 llantas
+                    _guardarllantas(
+                      [
+                        llantarem2Eco0,
+                        llantarem2Eco1,
+                        llantarem2Eco2,
+                        llantarem2Eco3,
+                        llantarem2Eco4,
+                        llantarem2Eco5,
+                        llantarem2Eco6,
+                        llantarem2Eco7,
+                      ],
+                      "4",
+                      unidadrem2,
+                    );
 
-                  _limpiar(context);
+                    _limpiar(context);
+                  }
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: new Text("Alert!!"),
+                        content: new Text("Ya se ha enviado anteriormente!"),
+                        actions: <Widget>[
+                          // ignore: deprecated_member_use
+                          new FlatButton(
+                            child: new Text("OK"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
               },
               child: Icon(
@@ -593,12 +616,29 @@ class VistaPreliminar extends StatelessWidget {
     // ignore: deprecated_member_use
     await preferences.commit();
     preferences.setString('user', nombre);
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Consulta(),
-        ),
-        (Route<dynamic> route) => false);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Alert!!"),
+          content: new Text("Se ha regisrado correctamente!"),
+          actions: <Widget>[
+            // ignore: deprecated_member_use
+            new FlatButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Consulta(),
+                    ),
+                    (Route<dynamic> route) => false);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _guardartrac(List<String> datos) async {
